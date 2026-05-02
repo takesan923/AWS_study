@@ -1,0 +1,27 @@
+# Terraformキャッシュ・プロバイダバイナリ（initで再取得可能）
+**/.terraform/*
+
+# Stateファイル（AWSリソースIDや機密情報を含む）
+*.tfstate
+*.tfstate.*
+
+# 変数ファイル（パスワード等の機密値を含む）
+*.tfvars
+*.tfvars.json
+
+# Planファイル（機密情報が含まれる場合がある）
+*.tfplan
+
+# クラッシュログ
+crash.log
+crash.*.log
+
+# ローカルオーバーライドファイル
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform CLI設定
+.terraformrc
+terraform.rc
