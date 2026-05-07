@@ -25,3 +25,6 @@ override.tf.json
 # Terraform CLI設定
 .terraformrc
 terraform.rc
+
+# SKILLS
+.claude
