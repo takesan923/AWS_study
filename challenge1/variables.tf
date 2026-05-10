@@ -15,3 +15,9 @@ variable "app_image_tag" {
   type        = string
   default     = "latest"
 }
+
+variable "slack_webhook_url" {
+  description = "Slack Incoming Webhook URL"
+  type        = string
+  sensitive   = true
+}

@@ -1,11 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException, Query                                     
-from fastapi.responses import JSONResponse                                                       
 from sqlalchemy.orm import Session                                                               
 from typing import Optional                                                                      
 
 import models
 import schemas
+import boto3
+import os
+import json
 from database import get_db
+
+# ルーターの上部に追加
+_eb = boto3.client("events", region_name=os.getenv("AWS_REGION", "ap-northeast-1"))
+_EVENT_BUS = os.getenv("EVENT_BUS_NAME", "task-events")
 
 router = APIRouter()
 
@@ -27,6 +33,19 @@ def create_task(task_in: schemas.TaskInput, db: Session = Depends(get_db)):
     db.add(task)
     db.commit()
     db.refresh(task)
+
+    # EventBridge にイベント送信
+    _eb.put_events(Entries=[{
+        "Source": "api.tasks",
+        "DetailType": "TaskCreated",
+        "Detail": json.dumps({
+            "task_id": task.id,
+            "title": task.title,
+            "status": task.status,
+        }),
+        "EventBusName": _EVENT_BUS,
+    }])
+
     return task
 
 
