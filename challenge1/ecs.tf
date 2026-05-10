@@ -18,6 +18,7 @@ resource "aws_ecs_task_definition" "api" {
   cpu                      = 256
   memory                   = 512
   execution_role_arn       = aws_iam_role.ecs_task_execution.arn
+  task_role_arn            = aws_iam_role.ecs_task.arn
 
   container_definitions = jsonencode([{
     name  = "api"
@@ -32,7 +33,7 @@ resource "aws_ecs_task_definition" "api" {
       { name = "DB_PORT", value = "3306" },
       { name = "DB_NAME", value = "app_db" },
       { name = "DB_USER", value = "app_user" },
-      { name = "EVENT_BUS_NAME", value = aws_cloudwatch_event_bus.task_events.name }
+      { name = "EVENT_BUS_NAME", value = aws_cloudwatch_event_bus.task_events.name },
     ]
 
     secrets = [
