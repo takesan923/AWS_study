@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "challenge1/app/**"
+      - "challenge1/github_actions_iam.tf"
       - "challenge1/Dockerfile"
       - "challenge1/requirements.txt"
 
